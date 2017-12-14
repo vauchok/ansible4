@@ -1,0 +1,7 @@
+- name: App_deploy
+  war_deploy:
+    url: mnt
+    war: mnt-lab.war
+    username: tomcat
+    password: tomcat
+  register: result

@@ -1,0 +1,27 @@
+- name: Tomcat stack
+  hosts: all
+
+  roles:
+  - java
+  - { role: tomcat, username: tomcat, password: tomcat}
+  - nginx
+  
+  post_tasks:
+  
+- name: Deploy
+  hosts: all
+ 
+  roles:
+  - deploy
+  ignore_errors: yes
+
+  post_tasks:
+  - name: Checks that tomcat installed and running properly  
+    command: curl -L http://127.0.0.1:8080/mnt
+    register: command_result
+    changed_when: False
+    failed_when: "'Build_user: Ihar_Vauchok' not in command_result.stdout"
+
+  - name: Sucsesfull instalation 
+    debug:
+      msg: "Deployment was successful"
